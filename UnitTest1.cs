@@ -5,26 +5,27 @@ using NUnit.Framework;
 
 namespace Lab;
 
-[TestFixture(typeof(Lab.Implementations.GenCode1.CreditCardValidator), Category = "GenCode1")]
-[TestFixture(typeof(Lab.Implementations.GenCode2.CreditCardValidator), Category = "GenCode2")]
-[TestFixture(typeof(Lab.Implementations.GenCode3.CreditCardValidator), Category = "GenCode3")]
 public class CreditCardValidatorTests
 {
     private ICreditCardValidator _validator;
-    private readonly Type _validatorType;
-
-    // Конструктор получает тип, переданный атрибутом TestFixture
-    public CreditCardValidatorTests(Type validatorType)
-    {
-        _validatorType = validatorType;
-    }
 
     [SetUp]
     public void Setup()
     {
-        // Создаём экземпляр переданного типа перед каждым тестом
-        _validator = (ICreditCardValidator)Activator.CreateInstance(_validatorType);
+        // Динамически определяем, какая версия доступна
+        if (TypeExists("Lab.Implementations.GenCode1.CreditCardValidator"))
+            _validator = Activator.CreateInstance(Type.GetType("Lab.Implementations.GenCode1.CreditCardValidator")) as ICreditCardValidator;
+        else if (TypeExists("Lab.Implementations.GenCode2.CreditCardValidator"))
+            _validator = Activator.CreateInstance(Type.GetType("Lab.Implementations.GenCode2.CreditCardValidator")) as ICreditCardValidator;
+        else
+            _validator = Activator.CreateInstance(Type.GetType("Lab.Implementations.GenCode3.CreditCardValidator")) as ICreditCardValidator;
     }
+    
+    private bool TypeExists(string typeName)
+    {
+        return Type.GetType(typeName) != null;
+    }
+
 
     // Тесты чёрного ящика
     [Test]
