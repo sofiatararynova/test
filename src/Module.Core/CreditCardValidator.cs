@@ -2,7 +2,7 @@ using Lab.Interfaces;
 using System;
 using System.Linq;
 
-namespace Lab.Implementations.GenCode2
+namespace Lab
 {
     public class CreditCardValidator : ICreditCardValidator
     {

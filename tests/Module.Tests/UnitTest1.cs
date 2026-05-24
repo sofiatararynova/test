@@ -1,32 +1,19 @@
-﻿using System;
-using Lab.Interfaces;
+using System;
 using NUnit.Framework;
+using Lab;
 
+namespace Lab.Tests;
 
-namespace Lab;
-
-[TestFixture(typeof(Lab.Implementations.GenCode1.CreditCardValidator), Category = "GenCode1")]
-[TestFixture(typeof(Lab.Implementations.GenCode2.CreditCardValidator), Category = "GenCode2")]
-[TestFixture(typeof(Lab.Implementations.GenCode3.CreditCardValidator), Category = "GenCode3")]
 public class CreditCardValidatorTests
 {
-    private ICreditCardValidator _validator;
-    private readonly Type _validatorType;
-
-    // Конструктор получает тип, переданный атрибутом TestFixture
-    public CreditCardValidatorTests(Type validatorType)
-    {
-        _validatorType = validatorType;
-    }
+    private CreditCardValidator _validator = null!;
 
     [SetUp]
     public void Setup()
     {
-        // Создаём экземпляр переданного типа перед каждым тестом
-        _validator = (ICreditCardValidator)Activator.CreateInstance(_validatorType);
+        _validator = new CreditCardValidator();
     }
 
-    // Тесты чёрного ящика
     [Test]
     public void IsValid_ValidNumber_ReturnsTrue()
     {
@@ -106,7 +93,6 @@ public class CreditCardValidatorTests
         Assert.DoesNotThrow(() => _validator.IsValid("0000000000000000000"));
     }
 
-    //Тесты белого ящика
     [Test]
     public void IsValid_NumberWithLeadingTrailingSpaces_ReturnsTrue()
     {
