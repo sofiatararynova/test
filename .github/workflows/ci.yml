@@ -1,37 +1,17 @@
 name: .NET CI Pipeline (NUnit)
-
 on:
-  push:
-    branches: [ "main", "ai-version-1", "ai-version-2", "ai-version-3" ]
-  pull_request:
-    branches: [ "main" ]
   workflow_dispatch:
-
+  push:
+    branches: [ "main", "ai-version-*" ]
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-    
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      
+    - uses: actions/checkout@v4
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 9.0.x
-        
-    - name: Restore dependencies
-      run: dotnet restore
-      
-    - name: Build
-      run: dotnet build --no-restore
-      
-    - name: Test
-      run: dotnet test --no-build --verbosity normal --logger "console;verbosity=detailed"
-      
-    - name: Publish Test Results
-      uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: nunit-test-results-${{ github.ref_name }}
-        path: '**/*.trx'
+    - run: dotnet restore
+    - run: dotnet build --no-restore
+    - run: dotnet test --no-build --verbosity normal
