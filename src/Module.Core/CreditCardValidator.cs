@@ -3,7 +3,7 @@ using System;
 // Пространство имен интерфейса уже задано отдельно
 // namespace Lab.Interfaces;
 
-namespace Lab.Implementations.GenCode3
+namespace Lab
 {
     public class CreditCardValidator : Lab.Interfaces.ICreditCardValidator
     {
