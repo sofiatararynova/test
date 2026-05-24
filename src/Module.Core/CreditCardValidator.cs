@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using Lab.Interfaces;
 
-namespace Lab.Implementations.GenCode1
+namespace Lab
 {
     /// <summary>
     /// Валидатор номеров кредитных карт, реализующий алгоритм Луна.
